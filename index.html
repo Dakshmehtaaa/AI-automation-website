@@ -156,12 +156,16 @@ html:not(.js) #work .stick{position:static;height:auto;overflow:visible}
 html:not(.js) #work .track{flex-wrap:wrap;width:auto}
 
 /* pipeline */
-#pipe{padding:var(--space-3xl) 0 var(--space-2xl)}
-#pipe .lede{color:var(--muted);font-size:clamp(18px,1.5vw,22px);max-width:44ch;line-height:1.45;margin-top:var(--space-l)}
+#pipe{padding:var(--space-2xl) 0}
+.pipe-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--space-xl);align-items:center}
+#pipe .pipe-grid h2{font-size:clamp(44px,5vw,88px);max-width:9ch}
+@media (max-width:980px){.pipe-grid{grid-template-columns:1fr;gap:var(--space-l)}}
+#pipe .lede{color:var(--muted);font-size:clamp(18px,1.5vw,22px);max-width:34ch;line-height:1.45;margin-top:var(--space-m)}
+#pipe .soon{margin-top:var(--space-m);color:var(--ink);font-size:16px;line-height:1.45;max-width:34ch;padding-left:var(--space-s);border-left:2px solid var(--signal)}
 .btn svg.li{width:22px;height:22px;stroke:none;fill:none;border-radius:5px;flex:none}
-.laptop{margin:var(--space-xl) auto 0;width:min(600px,100%);text-align:center}
-.laptop img{display:block;width:100%;height:auto;margin:0 auto;filter:drop-shadow(0 20px 24px rgba(0,0,0,.35))}
-.laptop figcaption{margin:var(--space-s) auto 0;color:var(--muted);font-size:16px;line-height:1.45;max-width:52ch}
+.laptop{margin:0;perspective:1400px}
+.laptop img{display:block;width:100%;height:auto;transform-origin:50% 100%;will-change:transform;filter:drop-shadow(0 30px 30px rgba(2,8,30,.55))}
+.laptop::after{content:"";display:block;width:78%;height:18px;margin:-6px auto 0;border-radius:50%;background:radial-gradient(closest-side,rgba(2,8,30,.6),rgba(2,8,30,0))}
 footer a{color:var(--muted);transition:color var(--dur-short) var(--ease-out)}
 footer a:hover{color:var(--ink)}
 .flow-box{position:relative;margin-top:var(--space-xl)}
@@ -313,12 +317,16 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--space
 
   <section id="pipe" aria-labelledby="h-pipe">
     <div class="wrap">
-      <h2 id="h-pipe" data-split>My own job hunt runs on AI agents</h2>
-      <p class="lede rise">I built CV Studio, a multi-agent pipeline that finds roles, screens them, tailors each CV and checks its own work twice. I only review.</p>
-      <figure class="laptop rise" style="--d:100ms">
-        <img src="assets/studio-macbook.png" alt="CV Studio home dashboard on a MacBook: job funnel, sources and audit scores" width="1858" height="1165" loading="lazy" decoding="async">
-        <figcaption>CV Studio: the job-application process I automated for myself, end to end. Coming out in 2027.</figcaption>
-      </figure>
+      <div class="pipe-grid">
+        <div>
+          <h2 id="h-pipe" data-split>My own job hunt runs on AI agents</h2>
+          <p class="lede rise">I built CV Studio, a multi-agent pipeline that finds roles, screens them, tailors each CV and checks its own work twice. I only review.</p>
+          <p class="soon rise" style="--d:150ms">The whole job-application process, automated end to end. Coming out in 2027.</p>
+        </div>
+        <figure class="laptop rise" style="--d:100ms">
+          <img id="mac" src="assets/studio-macbook.png" alt="CV Studio home dashboard on a MacBook: job funnel, sources and audit scores" width="1858" height="1165" loading="lazy" decoding="async">
+        </figure>
+      </div>
       <div class="flow-box"><div class="rail" aria-hidden="true"><i id="rail"></i></div>
       <ol class="flow" id="flow">
         <li><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></div><b>Find</b><span>Job boards and careers pages</span></li>
@@ -442,7 +450,7 @@ const plan=[
   ['method',.87,'bars',4.8,.95,0,1,'#081c58'],
   ['numbers',null,'galaxy',0,1.05,.55,1.2,'#04102f',.5],
   ['work',.5,'wave',0,1,.15,1,'#04102f',.8],
-  ['pipe',null,'net',3.4,.95,0,1,'#071a52',.35],
+  ['pipe',null,'net',4.4,.8,0,1,'#071a52',.15],
   ['tools',null,'chaos',0,1.15,0,2,'#071a52'],
   ['contact',null,'torus',4.4,1,0,1,'#1435b8'],
 ];
@@ -470,7 +478,7 @@ const setMq=p=>{mqPaused=p;mqBtn.textContent=p?'Play the tools':'Pause the tools
 mqBtn.addEventListener('click',()=>setMq(!mqPaused));
 
 /* dom refs */
-const flipNew=$$('#flip .new'),flipOld=$$('#flip .old'),steps=$$('.step'),ticks=$$('.ticks b'),track=$('#track'),rail=$('#rail'),flowLis=$$('#flow li'),spine=$('#spine');let curStep=-1;
+const mac=$('#mac');const flipNew=$$('#flip .new'),flipOld=$$('#flip .old'),steps=$$('.step'),ticks=$$('.ticks b'),track=$('#track'),rail=$('#rail'),flowLis=$$('#flow li'),spine=$('#spine');let curStep=-1;
 const prog=id=>{const s=metas[id];return s?clamp((getY()-s.top)/Math.max(1,s.h-innerHeight),0,1):0};
 const seen=id=>{const s=metas[id];return s?clamp((getY()+innerHeight*.85-s.top)/(s.h*.8),0,1):0};
 
@@ -500,6 +508,7 @@ function frame(time){
   if(si!==curStep){steps.forEach((s,j)=>{s.classList.toggle('on',j===si);s.classList.toggle('past',j<si);s.setAttribute('aria-hidden',j!==si)});curStep=si}
   ticks.forEach((b,j)=>b.style.transform=`scaleX(${clamp(pp*4-j,0,1)})`);
   const wp=prog('work'),max=Math.max(0,track.scrollWidth-innerWidth);track.style.transform=`translate3d(${-ease(wp)*max}px,0,0)`;
+  if(mac&&!reduce){const r=mac.getBoundingClientRect(),q=sstep(0,1,(innerHeight-r.top)/(innerHeight*.75));mac.style.transform=`rotateX(${(1-q)*24}deg) scale(${.9+.1*q}) translateY(${(1-q)*40}px)`}
   const fl=sstep(.3,.8,seen('pipe'));rail.style.transform=`scaleX(${fl})`;flowLis.forEach((n,j)=>n.classList.toggle('lit',fl>=j/5-.001&&fl>0));
   if(!mqPaused&&!mqHover){mqV=lerp(mqV,vel*.5,.1);mqX-=1.1+mqV}const wA=$('#mqA').scrollWidth/3||1;mqX=((mqX%wA)-wA)%wA;
   $('#mqA').style.transform=`translate3d(${mqX}px,0,0)`;$('#mqB').style.transform=`translate3d(${-wA-mqX}px,0,0)`;
