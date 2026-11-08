@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1512">
+<meta name="robots" content="noindex">
+<title>CV Studio demo</title>
+<style>
+:root{
+  --bg:#f5f7fb;--panel:#fff;--line:#e7eaf1;--line-2:#d9deea;--ink:#141a2b;--ink-2:#3b4357;--mute:#7b8398;--faint:#a9b0c2;
+  --accent:#5b4cf5;--accent-soft:#eeecff;--pink:#e64bc8;--cyan:#13b3d6;--amber:#f2a516;--blue:#3d86f2;--violet:#a55cf0;--red:#e5484d;
+  --shadow:0 1px 2px rgba(20,26,43,.04),0 4px 14px rgba(20,26,43,.05);
+  --r:12px;
+}
+html.dark{
+  --bg:#0d1020;--panel:#151a2e;--line:#232a44;--line-2:#2f3756;--ink:#eef1fa;--ink-2:#c6cbe0;--mute:#8890ab;--faint:#5c6482;
+  --accent-soft:#25214f;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1512px;height:982px;overflow:hidden;background:var(--bg);color:var(--ink);
+  font:14px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;transition:background-color .3s,color .3s}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.app{display:grid;grid-template-columns:232px 1fr;height:982px}
+
+/* sidebar */
+.side{background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:26px 16px 18px;transition:background-color .3s,border-color .3s}
+.logo{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:600;letter-spacing:-.02em;padding:0 8px 34px}
+.logo svg{width:24px;height:24px}
+.logo span{font-weight:400}
+.nav{display:flex;flex-direction:column;gap:4px}
+.nav button{display:flex;align-items:center;gap:11px;width:100%;padding:10px 12px;border-radius:9px;font-size:14px;color:var(--ink-2);position:relative;transition:background-color .18s,color .18s}
+.nav button svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.nav button:hover{background:var(--bg);color:var(--ink)}
+.nav button.on{background:var(--bg);color:var(--ink);font-weight:600;box-shadow:inset 0 0 0 1px var(--line)}
+.nav button.on::before{content:"";position:absolute;left:-16px;top:9px;bottom:9px;width:3px;border-radius:0 3px 3px 0;background:var(--accent)}
+.nav .badge{margin-left:auto;font-size:11px;font-weight:600;color:var(--mute);background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:1px 8px}
+.nav hr{border:0;border-top:1px solid var(--line);margin:12px 4px}
+.side .grow{flex:1}
+.find{display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);font-weight:600;font-size:14px;transition:border-color .18s,transform .18s}
+.find:hover{border-color:var(--accent);transform:translateY(-1px)}
+.find i{display:grid;place-items:center;width:24px;height:24px;border-radius:7px;background:#14532d;color:#d1fae5;font-style:normal;font-size:13px}
+.me{display:flex;align-items:center;gap:10px;padding:16px 8px 0;margin-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-2)}
+.me b{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--bg);border:1px solid var(--line);font-size:11px;font-weight:600}
+
+/* main */
+.main{display:flex;flex-direction:column;min-width:0;height:982px}
+.top{display:flex;align-items:center;gap:14px;padding:0 34px;height:62px;border-bottom:1px solid var(--line);flex:none;background:var(--bg);transition:background-color .3s,border-color .3s}
+.crumb{font-size:13px;color:var(--mute)}
+.crumb b{color:var(--ink);font-weight:600;margin-left:8px}
+.crumb em{font-style:normal;margin-left:8px;color:var(--faint)}
+.top .sp{flex:1}
+.date{font-size:13px;color:var(--mute)}
+.search{display:flex;align-items:center;gap:8px;width:220px;height:36px;padding:0 10px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--mute);font-size:13px;transition:border-color .18s,box-shadow .18s}
+.search:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.search input{border:0;outline:0;background:none;font:inherit;color:var(--ink);flex:1;min-width:0}
+.search kbd{font:11px/1 inherit;border:1px solid var(--line);border-radius:5px;padding:3px 5px;color:var(--faint)}
+.ib{display:grid;place-items:center;width:36px;height:36px;border:1px solid var(--line);border-radius:9px;background:var(--panel);position:relative;transition:border-color .18s,transform .18s}
+.ib:hover{border-color:var(--line-2);transform:translateY(-1px)}
+.ib svg{width:16px;height:16px;stroke:var(--ink-2);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.ib .dot{position:absolute;top:7px;right:8px;width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 2px var(--panel)}
+.ib.spin svg{animation:spin .7s ease}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pop{position:absolute;top:44px;right:0;width:300px;background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 18px 40px rgba(20,26,43,.16);padding:8px;z-index:20;text-align:left;opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .18s,transform .18s}
+.pop.open{opacity:1;transform:none;pointer-events:auto}
+.pop p{padding:10px;border-radius:8px;font-size:13px;color:var(--ink-2);line-height:1.4}
+.pop p:hover{background:var(--bg)}
+.pop p b{display:block;color:var(--ink);font-weight:600;margin-bottom:2px}
+
+.scroll{flex:1;overflow-y:auto;padding:26px 34px 40px;scroll-behavior:smooth;overscroll-behavior:contain}
+.scroll::-webkit-scrollbar{width:10px}
+.scroll::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:10px;border:3px solid var(--bg)}
+.row-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.row-h h2{font-size:16px;font-weight:600;letter-spacing:-.01em}
+.seg{display:inline-flex;align-items:center;gap:2px;padding:3px;border:1px solid var(--line);border-radius:99px;background:var(--panel)}
+.seg button{padding:4px 11px;border-radius:99px;font-size:12px;color:var(--mute);transition:background-color .18s,color .18s}
+.seg button:hover{color:var(--ink)}
+.seg button.on{background:var(--accent);color:#fff;font-weight:600}
+
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s,border-color .2s,background-color .3s}
+.kpi{padding:16px 18px;cursor:default}
+.kpi:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(20,26,43,.09);border-color:var(--line-2)}
+.kpi small{display:block;font-size:12px;color:var(--mute)}
+.kpi .v{font-size:38px;font-weight:300;letter-spacing:-.03em;line-height:1.15;margin:4px 0 2px;font-variant-numeric:tabular-nums}
+.kpi .d{display:flex;justify-content:space-between;font-size:12px;color:var(--mute)}
+.kpi .d em{font-style:normal;font-weight:600;color:#1e9e63}
+.kpi .d em.down{color:var(--red)}
+.spark{height:30px;margin-top:8px}
+.spark path{fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px}
+.panel{padding:16px 18px}
+.panel .row-h{margin-bottom:10px}
+.panel .row-h h2{font-size:15px}
+.panel .row-h h2 small{font-weight:400;color:var(--mute);font-size:12px;margin-left:6px}
+.legend{display:flex;gap:8px;margin-bottom:10px}
+.legend button{display:flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--line-2);border-radius:99px;font-size:12px;font-weight:600;transition:opacity .2s,border-color .2s}
+.legend button i{width:9px;height:9px;border-radius:3px}
+.legend button.off{opacity:.38}
+.legend button:hover{border-color:var(--ink-2)}
+svg.chart{display:block;width:100%;overflow:visible}
+svg.chart text{font-size:10px;fill:var(--mute)}
+svg.chart .gl{stroke:var(--line);stroke-dasharray:3 4}
+svg.chart rect.bar{transition:opacity .2s,y .5s cubic-bezier(.2,.8,.2,1),height .5s cubic-bezier(.2,.8,.2,1);rx:3px}
+svg.chart g.day:hover rect.bar{opacity:.78}
+svg.chart g.day rect.hit{fill:transparent}
+svg.chart g.day:hover rect.hit{fill:var(--accent-soft);opacity:.5}
+.tip{position:fixed;z-index:50;pointer-events:none;background:var(--ink);color:var(--panel);font-size:12px;line-height:1.45;padding:8px 10px;border-radius:8px;box-shadow:0 10px 24px rgba(0,0,0,.18);opacity:0;transform:translate(-50%,-110%);transition:opacity .12s;white-space:nowrap}
+.tip.show{opacity:1}
+.tip b{font-weight:600}
+.tip i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px}
+
+/* funnel */
+.fun{position:relative;height:250px}
+.fun svg{width:100%;height:100%}
+.fun .st{position:absolute;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:0 14px;font-size:13px;transform:translateY(-50%);cursor:default}
+.fun .st b{font-size:17px;font-weight:700;min-width:60px;font-variant-numeric:tabular-nums}
+.fun .st span{font-weight:600;min-width:110px;text-align:right}
+.fun .st em{font-style:normal;font-size:11px;font-weight:700;color:#fff;background:var(--ink);padding:3px 9px;border-radius:99px;transition:transform .2s}
+html.dark .fun .st em{background:#fff;color:#141a2b}
+.fun .st:hover em{transform:scale(1.12)}
+.fun path{transition:d .5s}
+
+/* sources */
+.src{padding:16px 18px;margin-bottom:22px}
+.wf{display:grid;grid-template-columns:repeat(7,1fr);gap:16px;height:200px;align-items:end;border-bottom:1px solid var(--line);position:relative}
+.wf .col{position:relative;height:100%;cursor:default}
+.wf .col i{position:absolute;left:8%;right:8%;border-radius:4px;transition:bottom .5s cubic-bezier(.2,.8,.2,1),height .5s cubic-bezier(.2,.8,.2,1),filter .2s,transform .2s}
+.wf .col:hover i{filter:brightness(1.08) saturate(1.1);transform:scaleX(1.05)}
+.wf .col b{position:absolute;left:0;right:0;text-align:center;font-size:12px;font-weight:600;transition:bottom .5s cubic-bezier(.2,.8,.2,1)}
+.wf-l{display:grid;grid-template-columns:repeat(7,1fr);gap:16px;margin-top:8px;font-size:12px;color:var(--mute);text-align:center}
+
+/* tables */
+.tbl{padding:6px 0 4px}
+.tbl .row-h{padding:10px 18px 4px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{font-size:11px;font-weight:600;color:var(--mute);text-align:left;padding:8px 18px;border-bottom:1px solid var(--line)}
+td{padding:11px 18px;border-bottom:1px solid var(--line);color:var(--ink-2)}
+tr:last-child td{border-bottom:0}
+tbody tr{transition:background-color .15s}
+tbody tr:hover{background:var(--bg)}
+td b{color:var(--ink);font-weight:600}
+.pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:99px}
+.pill.g{background:#e6f7ee;color:#167a4b}.pill.p{background:var(--accent-soft);color:var(--accent)}.pill.a{background:#fff4dc;color:#a76a00}.pill.r{background:#fde8e8;color:#b3261e}
+html.dark .pill.g{background:#123b29;color:#7ee2ad}html.dark .pill.a{background:#3b2c0b;color:#f5c66a}html.dark .pill.r{background:#3d1416;color:#f59b9e}
+.score{display:flex;align-items:center;gap:8px}
+.score s{display:block;width:70px;height:6px;border-radius:6px;background:var(--line);text-decoration:none;overflow:hidden}
+.score s u{display:block;height:100%;background:var(--accent);border-radius:6px;text-decoration:none}
+.audits{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px}
+.ring{display:flex;align-items:center;gap:16px;padding:16px 18px}
+.ring:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(20,26,43,.09)}
+.ring svg{width:64px;height:64px;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:7}
+.ring .bgc{stroke:var(--line)}
+.ring .fg{stroke-linecap:round;transition:stroke-dashoffset 1s cubic-bezier(.2,.8,.2,1)}
+.ring b{display:block;font-size:22px;font-weight:600;letter-spacing:-.02em}
+.ring small{color:var(--mute);font-size:12px}
+.foot{text-align:center;color:var(--faint);font-size:12px;padding:10px 0 0}
+
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:var(--ink);color:var(--panel);padding:11px 16px;border-radius:10px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s,transform .25s;z-index:60;box-shadow:0 12px 30px rgba(0,0,0,.2)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="logo"><svg viewBox="0 0 24 24"><path d="M4 6h12" stroke="#5b4cf5" stroke-width="2.4" stroke-linecap="round"/><path d="M6 12h14" stroke="#8b80ff" stroke-width="2.4" stroke-linecap="round"/><path d="M4 18h10" stroke="#5b4cf5" stroke-width="2.4" stroke-linecap="round"/></svg>CV <span>Studio</span></div>
+    <nav class="nav" aria-label="Studio">
+      <button class="on" data-nav="home"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg>Home</button>
+      <button data-nav="Apply"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg>Apply<span class="badge">22</span></button>
+      <button data-nav="Outreach"><svg viewBox="0 0 24 24"><path d="m12 3 2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.9 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg>Outreach<span class="badge">3</span></button>
+      <button data-nav="Audits"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>Audits</button>
+      <hr>
+      <button data-nav="More"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>More<span class="badge" style="border:0;background:none">›</span></button>
+    </nav>
+    <div class="grow"></div>
+    <button class="find" data-nav="Find email"><i>@</i>Find email</button>
+    <div class="me"><b>DM</b>Daksh Mehta</div>
+  </aside>
+
+  <div class="main">
+    <header class="top">
+      <div class="crumb">My workspace <em>›</em> <b>Home</b></div>
+      <div class="sp"></div>
+      <div class="date" id="date">Sun 8 Nov</div>
+      <label class="search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="q" placeholder="Find anything" aria-label="Find anything"><kbd>⌘K</kbd></label>
+      <div style="position:relative"><button class="ib" id="bell" aria-label="Notifications"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg><span class="dot"></span></button>
+        <div class="pop" id="pop"><p><b>3 new jobs shortlisted</b>Careers pages feed, 07:40</p><p><b>Audit 2 passed 4 CVs</b>Ready for your review</p><p><b>Follow-up due</b>2 people waiting 5 days</p></div></div>
+      <button class="ib" id="theme" aria-label="Dark mode"><svg viewBox="0 0 24 24"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></svg></button>
+      <button class="ib" id="refresh" aria-label="Refresh"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg></button>
+    </header>
+
+    <div class="scroll" id="scroll">
+      <div class="row-h"><h2>Results</h2><div class="seg" data-seg="kpi"></div></div>
+      <div class="kpis" id="kpis"></div>
+
+      <div class="grid2">
+        <section class="card panel">
+          <div class="row-h"><h2 id="barsT">Last 7 days <small id="barsS"></small></h2><div class="seg" data-seg="bars"></div></div>
+          <div class="legend" id="legend"></div>
+          <svg class="chart" id="bars" viewBox="0 0 560 230" preserveAspectRatio="none"></svg>
+        </section>
+        <section class="card panel">
+          <div class="row-h"><h2>Search funnel</h2><div class="seg" data-seg="fun"></div></div>
+          <div class="fun" id="fun"></div>
+        </section>
+      </div>
+
+      <section class="card src">
+        <div class="row-h"><h2>Where jobs come from</h2><div class="seg" data-seg="src"></div></div>
+        <div class="wf" id="wf"></div>
+        <div class="wf-l" id="wfl"></div>
+      </section>
+
+      <div class="row-h"><h2>Audit scores</h2><div class="seg" data-seg="aud"></div></div>
+      <div class="audits" id="aud"></div>
+
+      <section class="card tbl">
+        <div class="row-h"><h2>Recent jobs</h2></div>
+        <table><thead><tr><th>Company</th><th>Role</th><th>Source</th><th>Fit</th><th>Status</th></tr></thead><tbody id="jobs"></tbody></table>
+      </section>
+      <p class="foot">Sample data for this demo. The full CV Studio comes out in 2027.</p>
+    </div>
+  </div>
+</div>
+<div class="tip" id="tip"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const RANGES=['Today','Week','Month','All'];
+const C={accent:'#5b4cf5',pink:'#e64bc8',cyan:'#13b3d6'};
+const D={
+  kpi:{Today:[[3,'+1'],[1,'0'],[6,'+2']],Week:[[23,'+6'],[4,'-2'],[46,'+11']],Month:[[71,'+18'],[19,'+3'],[152,'+40']],All:[[214,''],[88,''],[497,'']]},
+  bars:{
+    Today:{sub:'today, by hour',labels:['07h','09h','11h','13h','15h','17h','19h'],s:[[12,31,22,9,18,14,6],[1,3,2,1,2,1,0],[0,1,1,0,1,0,0]]},
+    Week:{sub:'2 to 8 Nov',labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],s:[[28,149,82,88,101,43,0],[3,8,11,11,10,3,0],[1,3,5,11,3,0,0]]},
+    Month:{sub:'last 4 weeks',labels:['W42','W43','W44','W45','','',''],s:[[402,455,388,491,0,0,0],[31,38,37,46,0,0,0],[14,17,17,23,0,0,0]]},
+    All:{sub:'by month',labels:['Jun','Jul','Aug','Sep','Oct','Nov',''],s:[[620,910,1240,1580,1730,491,0],[41,66,94,121,128,46,0],[18,29,40,52,52,23,0]]}},
+  fun:{Today:[94,6,3],Week:[491,46,23],Month:[1736,152,71],All:[6571,497,214]},
+  src:{
+    Today:[12,9,5,3,2,1,32],Week:[182,195,148,90,30,6,651],Month:[640,702,511,312,98,21,2284],All:[2410,2655,1902,1180,401,73,8621]},
+  aud:{Today:[96,93,2],Week:[94,91,7],Month:[92,90,26],All:[91,89,94]}
+};
+const SRC_L=['Careers pages','Job boards','LinkedIn','Welcome to the Jungle','APEC','Referrals','Total'];
+const SRC_C=['#5b4cf5','#3d86f2','#f2a516','#a55cf0','#e5484d','#7b8398','#5b4cf5'];
+const JOBS=[['Northwind Energy','CSR & automation analyst','Careers pages',92,'Applied','g'],['Verdant Labs','Process improvement manager','Job boards',88,'Review first','a'],['Helio Mobility','AI workflow consultant','LinkedIn',90,'Shortlisted','p'],['Atlas Retail Group','Sustainability data lead','Careers pages',84,'Applied','g'],['Brightwater Foods','Operations excellence officer','Welcome to the Jungle',79,'Shortlisted','p'],['Kestrel Logistics','Power Platform developer','APEC',86,'Applied','g'],['Orchid Health','ESG reporting specialist','Referrals',73,'Rejected','r']];
+const st={kpi:'Week',bars:'Week',fun:'Week',src:'Week',aud:'Week',off:[false,false,false]};
+const tip=$('#tip');
+function showTip(e,h){tip.innerHTML=h;tip.classList.add('show');tip.style.left=e.clientX+'px';tip.style.top=e.clientY-8+'px'}
+function hideTip(){tip.classList.remove('show')}
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2200)}
+const fmt=n=>n.toLocaleString('en');
+function tween(el,to){const from=+(el.dataset.v||0);el.dataset.v=to;const t0=performance.now();const s=()=>{const p=Math.max(0,Math.min(1,(performance.now()-t0)/600)),e=1-Math.pow(1-p,3);el.textContent=fmt(Math.round(from+(to-from)*e));if(p<1)requestAnimationFrame(s)};requestAnimationFrame(s)}
+
+$$('[data-seg]').forEach(seg=>{const k=seg.dataset.seg;seg.innerHTML=RANGES.map(r=>`<button data-r="${r}" class="${r===st[k]?'on':''}">${r}</button>`).join('');
+  seg.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;st[k]=b.dataset.r;seg.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));R[k]()})});
+
+const R={};
+/* KPIs */
+const KN=[['Applied','This week'],['Rejected','This week'],['Shortlisted','Jobs picked for a CV']];
+$('#kpis').innerHTML=KN.map((k,i)=>`<div class="card kpi"><small>${k[0]}</small><div class="v" id="k${i}">0</div><div class="d"><span id="kl${i}">${k[1]}</span><em id="kd${i}"></em></div><svg class="spark" viewBox="0 0 200 30" preserveAspectRatio="none"><path id="ks${i}" stroke="${[C.accent,'#e5484d',C.pink][i]}"/></svg></div>`).join('');
+R.kpi=()=>{const d=D.kpi[st.kpi],lab={Today:'Today',Week:'This week',Month:'This month',All:'Since June'}[st.kpi];
+  d.forEach(([v,dl],i)=>{tween($('#k'+i),v);$('#kl'+i).textContent=i===2?'Jobs picked for a CV':lab;const em=$('#kd'+i);em.textContent=dl?dl+' vs last':'';em.className=dl.startsWith('-')?(i===1?'':'down'):(i===1&&dl!=='0'?'down':'');
+    const pts=Array.from({length:12},(_,j)=>{const y=15+Math.sin(j*1.3+i*2+v*.05)*8+(j/11)*-6*(i===1?-1:1);return `${j*18.2},${Math.max(3,Math.min(27,y))}`});$('#ks'+i).setAttribute('d','M'+pts.join(' L'))})};
+
+/* bars */
+const SN=['JDs collected','Shortlisted','Applied'],SC=[C.accent,C.pink,C.cyan];
+function legend(){const d=D.bars[st.bars];const tot=d.s.map(a=>a.reduce((x,y)=>x+y,0));
+  $('#legend').innerHTML=SN.map((n,i)=>`<button data-i="${i}" class="${st.off[i]?'off':''}"><i style="background:${SC[i]}"></i>${n} ${fmt(tot[i])}</button>`).join('')}
+$('#legend').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const i=+b.dataset.i;st.off[i]=!st.off[i];if(st.off.every(x=>x))st.off[i]=false;R.bars()});
+R.bars=()=>{const d=D.bars[st.bars];$('#barsS').textContent=d.sub;$('#barsT').firstChild.textContent={Today:'Today ',Week:'Last 7 days ',Month:'Last 4 weeks ',All:'Since June '}[st.bars];legend();
+  const W=560,H=230,pl=30,pb=22,ph=H-pb-8,n=d.labels.filter(Boolean).length||7,cw=(W-pl)/7;
+  const vis=d.s.map((a,i)=>st.off[i]?a.map(()=>0):a);const max=Math.max(10,...vis.flat());const top=Math.ceil(max/50)*50||50;
+  let g='';for(let k=0;k<=3;k++){const y=8+ph-ph*k/3;g+=`<line class="gl" x1="${pl}" x2="${W}" y1="${y}" y2="${y}"/><text x="${pl-6}" y="${y+3}" text-anchor="end">${fmt(Math.round(top*k/3))}</text>`}
+  for(let j=0;j<7;j++){const x=pl+j*cw;const bw=Math.min(16,cw/4.2);let bars='';
+    [0,1,2].forEach(i=>{const v=vis[i][j],h=ph*v/top;bars+=`<rect class="bar" x="${x+cw/2-1.6*bw+i*bw*1.1}" y="${8+ph-h}" width="${bw}" height="${h}" fill="${SC[i]}"/>`;
+      if(v&&i===0)bars+=`<text x="${x+cw/2-1.6*bw+bw/2}" y="${8+ph-h-4}" text-anchor="middle" style="fill:var(--ink-2);font-weight:600">${fmt(v)}</text>`});
+    g+=`<g class="day" data-j="${j}"><rect class="hit" x="${x+2}" y="4" width="${cw-4}" height="${ph+6}" rx="6"/>${bars}<text x="${x+cw/2}" y="${H-6}" text-anchor="middle">${d.labels[j]}</text></g>`}
+  const svg=$('#bars');svg.innerHTML=g;
+  svg.querySelectorAll('g.day').forEach(el=>{const j=+el.dataset.j;if(!d.labels[j])return;el.addEventListener('mousemove',e=>showTip(e,`<b>${d.labels[j]}</b><br>`+SN.map((n,i)=>st.off[i]?'':`<i style="background:${SC[i]}"></i>${n}: <b>${fmt(d.s[i][j])}</b><br>`).join('')));el.addEventListener('mouseleave',hideTip)})};
+
+/* funnel */
+R.fun=()=>{const [a,b,c]=D.fun[st.fun];const W=520,H=250;const w1=.9,w2=Math.max(.08,.9*Math.sqrt(b/a)*1.1),w3=Math.max(.05,.9*Math.sqrt(c/a)*1.1);
+  const cx=W/2,y=[18,125,232],hw=[w1*W/2,w2*W/2,w3*W/2];
+  const p=`M${cx-hw[0]},${y[0]-12} L${cx+hw[0]},${y[0]-12} C${cx+hw[0]*.55},${y[0]+50} ${cx+hw[1]},${y[1]-50} ${cx+hw[1]},${y[1]} L${cx+hw[2]},${y[2]+6} L${cx-hw[2]},${y[2]+6} L${cx-hw[1]},${y[1]} C${cx-hw[1]},${y[1]-50} ${cx-hw[0]*.55},${y[0]+50} ${cx-hw[0]},${y[0]-12}Z`;
+  const pct=[100,Math.round(b/a*100),Math.round(c/a*100)];
+  $('#fun').innerHTML=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><defs><linearGradient id="fg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7c6cff"/><stop offset=".45" stop-color="#2fa6e8"/><stop offset="1" stop-color="#d14fd8"/></linearGradient></defs><path d="${p}" fill="url(#fg)" opacity=".92"/></svg>`+
+   [[a,'Jobs collected'],[b,'Shortlisted'],[c,'Applied']].map(([v,l],i)=>`<div class="st" style="top:${(y[i]+(i==0?14:0))/H*100}%"><b data-v="0" id="f${i}">0</b><em>${pct[i]}%</em><span>${l}</span></div>`).join('');
+  [a,b,c].forEach((v,i)=>tween($('#f'+i),v))};
+
+/* sources waterfall */
+R.src=()=>{const d=D.src[st.src];const tot=d[6];let run=0;const H=200,top=tot*1.12;
+  $('#wf').innerHTML=d.map((v,i)=>{let base,h;if(i<6){base=run;h=v;run+=v}else{base=0;h=tot}
+    const bp=base/top*100,hp=Math.max(.8,h/top*100);return `<div class="col" data-i="${i}"><i style="bottom:${bp}%;height:${hp}%;background:${SRC_C[i]}"></i><b style="bottom:calc(${bp+hp}% + 6px)">${i<6?'+':''}${fmt(v)}</b></div>`}).join('');
+  $('#wfl').innerHTML=SRC_L.map(l=>`<span>${l}</span>`).join('');
+  $$('#wf .col').forEach(el=>{const i=+el.dataset.i;el.addEventListener('mousemove',e=>showTip(e,`<b>${SRC_L[i]}</b><br>${fmt(d[i])} jobs`+(i<6?`, ${Math.round(d[i]/tot*100)}% of total`:'')));el.addEventListener('mouseleave',hideTip)})};
+
+/* audits */
+const AN=[['Audit 1','Average score, first AI check'],['Audit 2','Average score, second AI check'],['Sent back to fix','CVs the audits returned']];
+$('#aud').innerHTML=AN.map((a,i)=>`<div class="card ring"><svg viewBox="0 0 64 64"><circle class="bgc" cx="32" cy="32" r="26"/><circle class="fg" id="r${i}" cx="32" cy="32" r="26" stroke="${[C.accent,'#13b3d6','#f2a516'][i]}" stroke-dasharray="163.4" stroke-dashoffset="163.4"/></svg><div><b id="a${i}">0</b><small>${a[0]}<br>${a[1]}</small></div></div>`).join('');
+R.aud=()=>{const d=D.aud[st.aud];d.forEach((v,i)=>{tween($('#a'+i),v);const f=i<2?v/100:Math.min(1,v/100);$('#r'+i).style.strokeDashoffset=163.4*(1-f)})};
+
+/* jobs */
+$('#jobs').innerHTML=JOBS.map(j=>`<tr><td><b>${j[0]}</b></td><td>${j[1]}</td><td>${j[2]}</td><td><div class="score"><s><u style="width:${j[3]}%"></u></s>${j[3]}</div></td><td><span class="pill ${j[5]}">${j[4]}</span></td></tr>`).join('');
+
+function all(){Object.values(R).forEach(f=>f())}
+all();
+
+/* chrome */
+$$('[data-nav]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.nav==='home'){$('#scroll').scrollTo({top:0});return}toast(`${b.dataset.nav} opens in the full app, coming 2027. This demo stays on Home.`)}));
+$('#bell').addEventListener('click',e=>{e.stopPropagation();$('#pop').classList.toggle('open')});
+document.addEventListener('click',e=>{if(!e.target.closest('#pop'))$('#pop').classList.remove('open')});
+$('#theme').addEventListener('click',()=>document.documentElement.classList.toggle('dark'));
+$('#refresh').addEventListener('click',()=>{const b=$('#refresh');b.classList.remove('spin');void b.offsetWidth;b.classList.add('spin');$$('[data-v]').forEach(el=>el.dataset.v=0);$$('.ring .fg').forEach(c=>c.style.strokeDashoffset=163.4);setTimeout(all,60)});
+$('#q').addEventListener('keydown',e=>{if(e.key==='Enter'){toast('Search works in the full app, coming 2027.');e.target.blur()}});
+addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();$('#q').focus()}});
+
+/* hand wheel back to the page at the ends, so the visitor never gets stuck */
+const sc=$('#scroll');
+sc.addEventListener('wheel',e=>{const atTop=sc.scrollTop<=0,atEnd=sc.scrollTop+sc.clientHeight>=sc.scrollHeight-1;
+  if((e.deltaY<0&&atTop)||(e.deltaY>0&&atEnd)){try{parent.postMessage({studioWheel:e.deltaY},'*')}catch(_){}}},{passive:true});
+document.querySelector('.side').addEventListener('wheel',e=>{try{parent.postMessage({studioWheel:e.deltaY},'*')}catch(_){}},{passive:true});
+$('.top').addEventListener('wheel',e=>{try{parent.postMessage({studioWheel:e.deltaY},'*')}catch(_){}},{passive:true});
+</script>
+</body>
+</html>

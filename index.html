@@ -161,10 +161,19 @@ html:not(.js) #work .track{flex-wrap:wrap;width:auto}
 #pipe .pipe-grid h2{font-size:clamp(44px,5vw,88px);max-width:9ch}
 @media (max-width:980px){.pipe-grid{grid-template-columns:1fr;gap:var(--space-l)}}
 #pipe .lede{color:var(--muted);font-size:clamp(18px,1.5vw,22px);max-width:34ch;line-height:1.45;margin-top:var(--space-m)}
-#pipe .soon{margin-top:var(--space-m);color:var(--ink);font-size:16px;line-height:1.45;max-width:34ch;padding-left:var(--space-s);border-left:2px solid var(--signal)}
+#pipe .launch{display:inline-flex;align-items:center;gap:12px;margin-top:var(--space-l);padding:12px 22px 12px 14px;border-radius:99px;background:var(--signal);color:var(--signal-ink);font-family:var(--font-display);font-weight:800;font-size:clamp(20px,1.7vw,26px);letter-spacing:-.02em;line-height:1;box-shadow:0 0 0 6px rgba(255,181,71,.14)}
+#pipe .launch svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+#pipe .hint{margin-top:var(--space-m);color:var(--muted);font-size:15px;line-height:1.45;max-width:34ch}
+@media (hover:none){#pipe .hint{display:none}}
 .btn svg.li{width:22px;height:22px;stroke:none;fill:none;border-radius:5px;flex:none}
 .laptop{margin:0;perspective:1400px}
-.laptop img{display:block;width:100%;height:auto;transform-origin:50% 100%;will-change:transform;filter:drop-shadow(0 30px 30px rgba(2,8,30,.55))}
+.mac{position:relative;transform-origin:50% 100%;will-change:transform}
+.mac-frame{position:relative;z-index:2;display:block;width:100%;height:auto;pointer-events:none;filter:drop-shadow(0 30px 30px rgba(2,8,30,.55))}
+.mac-screen{position:absolute;z-index:1;left:11.3%;top:4.3%;width:77.45%;height:80.25%;overflow:hidden;background:#f5f7fb}
+.mac-screen iframe{position:absolute;left:0;top:0;width:1512px;height:982px;border:0;transform-origin:0 0;background:#f5f7fb}
+.notch{position:absolute;z-index:3;left:50%;top:4.25%;transform:translateX(-50%);width:8.6%;height:2.9%;background:#050506;border-radius:0 0 7px 7px;pointer-events:none}
+.notch::after{content:"";position:absolute;left:50%;top:42%;width:9%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:#16181d;box-shadow:inset 0 0 0 1px #24272e}
+@media (hover:none){.mac-screen iframe{pointer-events:none}}
 .laptop::after{content:"";display:block;width:78%;height:18px;margin:-6px auto 0;border-radius:50%;background:radial-gradient(closest-side,rgba(2,8,30,.6),rgba(2,8,30,0))}
 footer a{color:var(--muted);transition:color var(--dur-short) var(--ease-out)}
 footer a:hover{color:var(--ink)}
@@ -321,10 +330,15 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--space
         <div>
           <h2 id="h-pipe" data-split>My own job hunt runs on AI agents</h2>
           <p class="lede rise">I built CV Studio, a multi-agent pipeline that finds roles, screens them, tailors each CV and checks its own work twice. I only review.</p>
-          <p class="soon rise" style="--d:150ms">The whole job-application process, automated end to end. Coming out in 2027.</p>
+          <p class="launch rise" style="--d:150ms"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Coming out in 2027</p>
+          <p class="hint rise" style="--d:200ms">The screen is live. Hover the charts, switch the dates, scroll inside.</p>
         </div>
         <figure class="laptop rise" style="--d:100ms">
-          <img id="mac" src="assets/studio-macbook.png" alt="CV Studio home dashboard on a MacBook: job funnel, sources and audit scores" width="1858" height="1165" loading="lazy" decoding="async">
+          <div class="mac" id="mac">
+            <div class="mac-screen"><iframe id="studio" src="studio.html" title="Interactive demo of the CV Studio home page, with sample data" loading="lazy"></iframe></div>
+            <span class="notch" aria-hidden="true"></span>
+            <img class="mac-frame" src="assets/macbook-frame.png" alt="" width="1858" height="1165" loading="lazy" decoding="async">
+          </div>
         </figure>
       </div>
       <div class="flow-box"><div class="rail" aria-hidden="true"><i id="rail"></i></div>
@@ -478,7 +492,10 @@ const setMq=p=>{mqPaused=p;mqBtn.textContent=p?'Play the tools':'Pause the tools
 mqBtn.addEventListener('click',()=>setMq(!mqPaused));
 
 /* dom refs */
-const mac=$('#mac');const flipNew=$$('#flip .new'),flipOld=$$('#flip .old'),steps=$$('.step'),ticks=$$('.ticks b'),track=$('#track'),rail=$('#rail'),flowLis=$$('#flow li'),spine=$('#spine');let curStep=-1;
+const mac=$('#mac'),studio=$('#studio');
+if(studio){const fit=()=>{studio.style.transform=`scale(${studio.parentNode.clientWidth/1512})`};fit();new ResizeObserver(fit).observe(studio.parentNode);
+  addEventListener('message',e=>{if(e.source!==studio.contentWindow||!e.data||typeof e.data.studioWheel!=='number')return;const d=e.data.studioWheel;lenis?lenis.scrollTo(lenis.targetScroll+d):scrollBy(0,d)})}
+const flipNew=$$('#flip .new'),flipOld=$$('#flip .old'),steps=$$('.step'),ticks=$$('.ticks b'),track=$('#track'),rail=$('#rail'),flowLis=$$('#flow li'),spine=$('#spine');let curStep=-1;
 const prog=id=>{const s=metas[id];return s?clamp((getY()-s.top)/Math.max(1,s.h-innerHeight),0,1):0};
 const seen=id=>{const s=metas[id];return s?clamp((getY()+innerHeight*.85-s.top)/(s.h*.8),0,1):0};
 
