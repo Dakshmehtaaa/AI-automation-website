@@ -1,5 +1,7 @@
 # Daksh Mehta: AI automation
 
+
+Live: https://dakshmehtaaa.github.io/AI-automation-website/
 Personal portfolio site. Plain HTML + Three.js particles (vendored, no build step).
 
 - `index.html`: the whole site
