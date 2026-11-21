@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1858 1165" width="1858" height="1165">
+  <!-- MacBook Pro frame, drawn on the same 1858x1165 grid as the old PNG.
+       Screen opening: x 210..1649, y 50..985 (1439x935, the 1512x982 point
+       display at 0.9517), top corners rounded like the real panel. -->
+  <defs>
+    <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d2d3d5"/>
+      <stop offset=".5" stop-color="#b3b5b8"/>
+      <stop offset="1" stop-color="#c4c5c8"/>
+    </linearGradient>
+    <linearGradient id="chin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2b2b2b"/>
+      <stop offset="1" stop-color="#121212"/>
+    </linearGradient>
+    <linearGradient id="base" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6f7072"/>
+      <stop offset=".025" stop-color="#eceded"/>
+      <stop offset=".09" stop-color="#d9dadc"/>
+      <stop offset=".44" stop-color="#cfd0d2"/>
+      <stop offset=".6" stop-color="#b5b6b8"/>
+      <stop offset=".72" stop-color="#97989a"/>
+      <stop offset=".8" stop-color="#909193"/>
+      <stop offset=".88" stop-color="#a3a4a6"/>
+      <stop offset=".94" stop-color="#d6d7d9"/>
+      <stop offset=".975" stop-color="#d9dadb"/>
+      <stop offset="1" stop-color="#8f9092"/>
+    </linearGradient>
+    <linearGradient id="baseEnds" x1="25" y1="0" x2="1833" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#000" stop-opacity=".22"/>
+      <stop offset=".004" stop-color="#fff" stop-opacity=".1"/>
+      <stop offset=".01" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset=".018" stop-color="#fff" stop-opacity=".05"/>
+      <stop offset=".026" stop-color="#000" stop-opacity=".1"/>
+      <stop offset=".06" stop-color="#000" stop-opacity="0"/>
+      <stop offset=".94" stop-color="#000" stop-opacity="0"/>
+      <stop offset=".974" stop-color="#000" stop-opacity=".1"/>
+      <stop offset=".982" stop-color="#fff" stop-opacity=".05"/>
+      <stop offset=".99" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset=".996" stop-color="#fff" stop-opacity=".1"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".22"/>
+    </linearGradient>
+    <linearGradient id="scoop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e4e5e6"/>
+      <stop offset=".35" stop-color="#f3f4f4"/>
+      <stop offset="1" stop-color="#fcfcfc"/>
+    </linearGradient>
+    <linearGradient id="scoopEdge" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5e5f61"/>
+      <stop offset=".025" stop-color="#c9cacc" stop-opacity="0"/>
+      <stop offset=".975" stop-color="#c9cacc" stop-opacity="0"/>
+      <stop offset="1" stop-color="#5e5f61"/>
+    </linearGradient>
+    <linearGradient id="foot" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8d8e90"/>
+      <stop offset=".18" stop-color="#d6d7d9"/>
+      <stop offset=".45" stop-color="#c2c3c5"/>
+      <stop offset=".55" stop-color="#2c2c2d"/>
+      <stop offset="1" stop-color="#3f3f40"/>
+    </linearGradient>
+  </defs>
+
+  <!-- feet -->
+  <path d="M125 1104h118l-4 8.5a6 6 0 0 1-5.4 3.5H134.4a6 6 0 0 1-5.4-3.5z" fill="url(#foot)"/>
+  <path d="M1615 1104h118l-4 8.5a6 6 0 0 1-5.4 3.5h-99.2a6 6 0 0 1-5.4-3.5z" fill="url(#foot)"/>
+
+  <!-- lid: aluminium rim, dark gasket, black bezel with the screen cut out -->
+  <path fill-rule="evenodd" d="M228 24H1630A44 44 0 0 1 1674 68V1041H184V68A44 44 0 0 1 228 24z M228 31H1630A37 37 0 0 1 1667 68V1041H191V68A37 37 0 0 1 228 31z" fill="url(#rim)"/>
+  <path fill-rule="evenodd" d="M228.0 28.5H1630.0A39.5 39.5 0 0 1 1669.5 68.0V1041H188.5V68.0A39.5 39.5 0 0 1 228.0 28.5z M228 36H1630A32 32 0 0 1 1662 68V1041H196V68A32 32 0 0 1 228 36z" fill="#242424"/>
+  <path fill="#070607" fill-rule="evenodd"
+        d="M228 33H1630A35 35 0 0 1 1665 68V1041H193V68A35 35 0 0 1 228 33z
+           M219.5 50a9.5 9.5 0 0 0-9.5 9.5V985h1439V59.5a9.5 9.5 0 0 0-9.5-9.5z"/>
+  <!-- lower bezel (chin) -->
+  <rect x="189.5" y="1000" width="1479" height="40" fill="url(#chin)"/>
+
+  <!-- base -->
+  <path d="M25 1041h1808v24a40 40 0 0 1-40 40H65a40 40 0 0 1-40-40z" fill="url(#base)"/>
+  <path d="M25 1041h1808v24a40 40 0 0 1-40 40H65a40 40 0 0 1-40-40z" fill="url(#baseEnds)"/>
+  <rect x="25" y="1040" width="1808" height="1.2" fill="#000" opacity=".85"/>
+  <!-- thumb scoop -->
+  <path d="M771 1041h316l-6 15.5a10 10 0 0 1-9.3 6.5H786.3a10 10 0 0 1-9.3-6.5z" fill="url(#scoop)"/>
+  <path d="M771 1041h316l-6 15.5a10 10 0 0 1-9.3 6.5H786.3a10 10 0 0 1-9.3-6.5z" fill="url(#scoopEdge)"/>
+  <rect x="771" y="1041" width="316" height="1.4" fill="#4a4b4d" opacity=".55"/>
+</svg>
