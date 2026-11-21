@@ -8,6 +8,12 @@
 <meta property="og:title" content="Daksh Mehta: I automate the boring.">
 <meta property="og:description" content="AI and workflow automation for teams buried in manual work.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://dakshmehtaaa.github.io/AI-automation-website/">
+<meta property="og:image" content="https://dakshmehtaaa.github.io/AI-automation-website/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23071a52'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-weight='800' font-size='38' text-anchor='middle' fill='%23eef2ff'%3ED%3C/text%3E%3Ccircle cx='50' cy='48' r='5' fill='%23ffb547'/%3E%3C/svg%3E">
 <meta name="theme-color" content="#071a52">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,11 +62,18 @@ h1,h2,h3,.display{font-family:var(--font-display);font-weight:800;letter-spacing
 html:not(.js) #loader{display:none}
 
 /* nav */
-nav{position:fixed;top:0;left:0;right:0;z-index:50}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;--nav-g:#071a52}
+nav::before{content:"";position:absolute;inset:0 0 -36px;pointer-events:none;background:linear-gradient(var(--nav-g) 0%,var(--nav-g) 45%,color-mix(in srgb,var(--nav-g) 70%,transparent) 72%,transparent);opacity:0;transition:opacity var(--dur-long) var(--ease-out)}
+nav.scrolled::before{opacity:1}
+nav .wrap{position:relative}
 nav .wrap{display:flex;justify-content:space-between;align-items:center;padding-top:var(--space-m);padding-bottom:var(--space-m)}
 nav .mark{font-family:var(--font-display);font-weight:800;font-size:20px;letter-spacing:-.03em}
 nav .mail{font-size:15px;padding:var(--space-xs) var(--space-s);border:1px solid var(--rule-strong);border-radius:99px;background:rgba(7,26,82,.4);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:border-color var(--dur-short) var(--ease-out),background-color var(--dur-short) var(--ease-out)}
 nav .mail:hover{border-color:var(--ink);background:rgba(7,26,82,.7)}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:28px;z-index:60;transform:translate(-50%,16px);opacity:0;pointer-events:none;padding:12px 18px;border-radius:99px;background:var(--ink);color:var(--ground-2);font-size:15px;font-weight:500;box-shadow:0 12px 40px rgba(2,8,30,.45);transition:opacity var(--dur-long) var(--ease-out),transform var(--dur-long) var(--ease-out)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
 
 /* progress spine */
 .spine{position:fixed;top:0;bottom:0;left:max(8px,1.2vw);width:2px;background:var(--rule);z-index:40}
@@ -128,7 +141,7 @@ html:not(.js) .ticks{display:none}
 @media (max-width:820px){#method .stick{align-items:flex-end;padding-bottom:12svh}.steps{max-width:none;height:44svh}}
 
 /* numbers */
-#numbers{padding:var(--space-3xl) 0 var(--space-2xl)}
+#numbers{padding:var(--space-2xl) 0}
 #numbers h2,#pipe h2,#work h2,#tools h2{font-size:var(--text-section);max-width:13ch}
 .nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:var(--space-xl);border-top:1px solid var(--rule)}
 .num{padding:var(--space-l) var(--space-m) var(--space-xl) 0;border-bottom:1px solid var(--rule)}
@@ -138,22 +151,64 @@ html:not(.js) .ticks{display:none}
 .num p{color:var(--muted);margin-top:var(--space-s);max-width:24ch;font-size:16px;line-height:1.45}
 @media (max-width:820px){.nums{grid-template-columns:repeat(2,minmax(0,1fr))}.num:nth-child(n){padding-left:0;border-left:0}.num:nth-child(even){padding-left:var(--space-s);border-left:1px solid var(--rule)}}
 
-/* work: horizontal */
-#work{height:440vh}
-#work .stick{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:var(--space-xl)}
-#work .track{display:flex;gap:var(--space-m);padding:0 var(--gutter);will-change:transform;width:max-content}
-.job{flex:0 0 clamp(300px,36vw,540px);height:clamp(400px,56svh,560px);border:1px solid var(--rule);border-radius:28px;padding:clamp(24px,2.4vw,40px);display:flex;flex-direction:column;background:rgba(4,16,47,.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);position:relative;overflow:hidden;transition:border-color var(--dur-short) var(--ease-out)}
-.job:hover{border-color:var(--rule-strong)}
-.job .meta{display:flex;justify-content:space-between;color:var(--muted);font-size:15px}
-.job h3{font-size:clamp(44px,4.6vw,76px);margin-top:auto}
-.job .role{color:var(--ink);font-size:16px;margin-top:var(--space-s);font-weight:500}
-.job p{font-size:clamp(17px,1.3vw,20px);color:var(--muted);line-height:1.45;max-width:30ch;margin-top:var(--space-m)}
-.job .no{position:absolute;right:var(--space-m);top:calc(var(--space-l) + 18px);font-family:var(--font-display);font-weight:800;font-size:clamp(120px,13vw,210px);line-height:.8;color:transparent;-webkit-text-stroke:1px var(--rule-strong);letter-spacing:-.06em;pointer-events:none}
-.job.next{background:none;border-style:dashed;justify-content:center;align-items:flex-start;gap:var(--space-l)}
-.job.next h3{margin-top:0}
+/* work: pinned horizontal track on desktop, vertical timeline on phones */
+.js #work{height:360vh}
+#work .stick{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:clamp(20px,4svh,56px);padding-top:max(100px,11svh)}
+.work-head{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--space-m) var(--space-xl);flex-wrap:wrap}
+#work h2{font-size:clamp(40px,min(5.4vw,8.6svh),96px);max-width:none}
+.work-head .lede{color:var(--muted);font-size:clamp(16px,1.25vw,19px);line-height:1.45;max-width:44ch;margin-top:var(--space-s)}
+.meter{display:flex;align-items:center;gap:var(--space-s);font-family:var(--font-display);font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;padding-bottom:6px}
+.meter .cur{font-size:clamp(28px,2.4vw,40px);line-height:1;min-width:2ch}
+.meter .tot{color:var(--dim);font-size:18px}
+.meter .bar{width:clamp(80px,10vw,160px);height:2px;background:var(--rule);position:relative;overflow:hidden}
+.meter .bar i{position:absolute;inset:0;background:var(--signal);transform-origin:left;transform:scaleX(0)}
+#work .track{display:flex;align-items:stretch;gap:var(--space-m);padding:0 var(--gutter);will-change:transform;width:max-content;position:relative}
+.job{--a:1;--mx:50%;--my:0%;flex:0 0 clamp(320px,33vw,500px);min-height:clamp(360px,54svh,540px);border:1px solid var(--rule);border-radius:28px;padding:clamp(24px,2.2vw,36px);display:flex;flex-direction:column;gap:var(--space-s);background:linear-gradient(165deg,rgba(14,40,120,.72),rgba(4,16,47,.86) 60%);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);position:relative;overflow:hidden;isolation:isolate;scale:calc(.965 + .035*var(--a));border-color:rgba(180,194,238,calc(.16 + .3*var(--a)));transition:border-color var(--dur-long) var(--ease-out)}
+.job>*:not(.dot){opacity:calc(.45 + .55*var(--a))}
+.job::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(460px circle at var(--mx) var(--my),rgba(111,147,255,.18),transparent 62%);opacity:0;transition:opacity var(--dur-long) var(--ease-out)}
+.job:hover::before{opacity:1}
+.job-top{display:flex;align-items:center;gap:var(--space-s)}
+.job .mono{width:52px;height:52px;flex:none;border-radius:16px;display:grid;place-items:center;font-family:var(--font-display);font-weight:800;font-size:18px;letter-spacing:-.03em;color:var(--ink);background:rgba(111,147,255,.14);border:1px solid var(--rule-strong)}
+.job .when{display:flex;flex-direction:column;line-height:1.3;font-size:15px;color:var(--muted)}
+.job .when b{color:var(--ink);font-weight:500}
+.job .idx{margin-left:auto;align-self:flex-start;font-family:var(--font-display);font-weight:800;font-size:15px;color:var(--dim);font-variant-numeric:tabular-nums}
+.job h3{font-size:clamp(36px,3.3vw,56px);line-height:.95;margin-top:auto;padding-top:var(--space-m)}
+.job .role{color:var(--ink);font-size:16px;font-weight:500;margin-top:-4px}
+.job .did{list-style:none;display:grid;gap:var(--space-xs);margin-top:var(--space-2xs)}
+.job .did li{position:relative;padding-left:22px;color:var(--muted);font-size:clamp(15px,1.1vw,17px);line-height:1.45;max-width:40ch}
+.job .did li::before{content:"";position:absolute;left:2px;top:.62em;width:10px;height:2px;background:var(--rule-strong)}
+.job .tags{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:var(--space-xs)}
+.job .tags li{font-size:13px;line-height:1;padding:8px 12px;border-radius:99px;border:1px solid var(--rule);color:var(--muted);white-space:nowrap}
+.job .site{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;font-size:15px;color:var(--ink);border-bottom:1px solid var(--rule-strong);padding-bottom:2px;transition:border-color var(--dur-short) var(--ease-out)}
+.job .site:hover{border-color:var(--ink)}
+.job .site svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+.job .dot{display:none}
+.job.next{background:none;border-style:dashed;justify-content:center;align-items:flex-start;gap:var(--space-m)}
+.job.next h3{margin-top:0;padding-top:0}
+.job.next p{color:var(--muted);max-width:28ch;font-size:clamp(16px,1.2vw,18px);line-height:1.45}
+.tl-fill{display:none}
+@media (max-width:820px){
+  .js #work,#work{height:auto!important;padding:var(--space-2xl) 0 var(--space-xl)}
+  #work .stick{position:static;height:auto;overflow:visible;padding-top:0;gap:var(--space-l)}
+  .meter{display:none}
+  #work .track{flex-direction:column;width:auto;transform:none!important;gap:var(--space-s);padding-left:calc(var(--gutter) + 26px)}
+  #work .track::before,.tl-fill{content:"";display:block;position:absolute;left:calc(var(--gutter) + 6px);top:30px;bottom:30px;width:2px;background:var(--rule)}
+  .tl-fill{background:var(--signal);transform-origin:top;transform:scaleY(0)}
+  .job>*:not(.dot){opacity:1}
+  .job{flex:none;min-height:0;opacity:1;scale:none;overflow:visible;border-color:var(--rule)}
+  .job::before{display:none}
+  .job h3{margin-top:var(--space-2xs);padding-top:0;font-size:clamp(34px,9vw,48px)}
+  .job .dot{display:block;position:absolute;left:-27px;top:44px;width:14px;height:14px;border-radius:50%;background:var(--ground-2);border:2px solid var(--rule-strong);transition:border-color var(--dur-long) var(--ease-out),background-color var(--dur-long) var(--ease-out)}
+  .job.lit .dot{border-color:var(--signal);background:var(--signal)}
+  .js .job{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease-out),transform .9s var(--ease-out),border-color var(--dur-long) var(--ease-out)}
+  .js .job.seen{opacity:1;transform:none}
+}
+@media (min-width:821px) and (max-height:780px){#work .stick{padding-top:92px}.work-head .lede{font-size:15px;margin-top:8px}.job{gap:10px;padding:22px 24px}.job h3{font-size:clamp(32px,2.8vw,44px);padding-top:var(--space-s)}.job .did li{font-size:14.5px}.job .mono{width:44px;height:44px;border-radius:13px;font-size:16px}.job .tags li{padding:7px 11px;font-size:12.5px}}
+@media (prefers-reduced-motion:reduce){.job{scale:none}.js .job{transform:none!important;transition:none!important}.js .job.seen,.js .job{opacity:1}}
 html:not(.js) #work{height:auto;padding:var(--space-2xl) 0}
 html:not(.js) #work .stick{position:static;height:auto;overflow:visible}
 html:not(.js) #work .track{flex-wrap:wrap;width:auto}
+html:not(.js) .meter{display:none}
 
 /* pipeline */
 #pipe{padding:var(--space-2xl) 0}
@@ -225,6 +280,7 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--space
 </div>
 
 <canvas id="gl" aria-hidden="true"></canvas>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="spine" aria-hidden="true"><i id="spine"></i></div>
 
 <nav aria-label="Main">
@@ -270,6 +326,60 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--space
     </div></div>
   </section>
 
+  <section id="work" aria-labelledby="h-work">
+    <div class="stick">
+      <div class="wrap work-head">
+        <div>
+          <h2 id="h-work" data-split>Four teams, same habit</h2>
+          <p class="lede rise">Start-up to CAC 40. Every time: map the work, automate it, train the people, measure what changed.</p>
+        </div>
+        <div class="meter" aria-hidden="true"><span class="cur" id="jobCur">01</span><span class="bar"><i id="jobBar"></i></span><span class="tot">04</span></div>
+      </div>
+      <div class="track" id="track">
+        <i class="tl-fill" id="tlFill" aria-hidden="true"></i>
+        <article class="job">
+          <i class="dot" aria-hidden="true"></i>
+          <div class="job-top"><span class="mono" aria-hidden="true">HB</span><span class="when"><b>Oct 2026 to now</b>Paris</span><span class="idx" aria-hidden="true">01</span></div>
+          <h3>Honeybees Consulting</h3>
+          <p class="role">Founder and ESG consultant</p>
+          <ul class="did"><li>Automating CSR operations with AI, from data collection to CSRD reporting.</li><li>Building a free GHG emissions calculator for private companies.</li></ul>
+          <a class="site" href="https://honeybees.consulting" target="_blank" rel="noopener">honeybees.consulting<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+          <ul class="tags" aria-label="Skills"><li>AI automation</li><li>CSRD</li><li>Carbon accounting</li></ul>
+        </article>
+        <article class="job">
+          <i class="dot" aria-hidden="true"></i>
+          <div class="job-top"><span class="mono" aria-hidden="true">DK</span><span class="when"><b>Sep 2025 to Sep 2026</b>Paris</span><span class="idx" aria-hidden="true">02</span></div>
+          <h3>Dataiku</h3>
+          <p class="role">Sustainability and social impact apprentice</p>
+          <ul class="did"><li>Tested the internal GenAI ESG support agent on client questionnaires and fed back to the product owner.</li><li>Coordinated a 4-vendor platform evaluation with a requirements matrix and demo cycles.</li></ul>
+          <ul class="tags" aria-label="Skills"><li>GenAI testing</li><li>Dataiku DSS</li><li>Vendor selection</li></ul>
+        </article>
+        <article class="job">
+          <i class="dot" aria-hidden="true"></i>
+          <div class="job-top"><span class="mono" aria-hidden="true">TH</span><span class="when"><b>Feb to Aug 2025</b>Gémenos</span><span class="idx" aria-hidden="true">03</span></div>
+          <h3>Thales</h3>
+          <p class="role">CSR consultant intern</p>
+          <ul class="did"><li>Mapped and automated the CSR process in Purchasing, for clearer KPI tracking and reporting.</li><li>Trained 50+ colleagues on Microsoft Power Automate.</li></ul>
+          <ul class="tags" aria-label="Skills"><li>Power Automate</li><li>Process mapping</li><li>Training</li></ul>
+        </article>
+        <article class="job">
+          <i class="dot" aria-hidden="true"></i>
+          <div class="job-top"><span class="mono" aria-hidden="true">BM</span><span class="when"><b>Jul to Dec 2022</b>Bordeaux</span><span class="idx" aria-hidden="true">04</span></div>
+          <h3>Back Market</h3>
+          <p class="role">Process manager intern</p>
+          <ul class="did"><li>Drew the process charts in Figma for clearer communication.</li><li>Data support for around 600 agents on 8 sites, 16 countries.</li></ul>
+          <ul class="tags" aria-label="Skills"><li>Figma</li><li>Excel and SQL</li><li>KPIs</li></ul>
+        </article>
+        <article class="job next">
+          <i class="dot" aria-hidden="true"></i>
+          <h3>Your team next?</h3>
+          <p>Tell me the task your team repeats every week. I will map it first.</p>
+          <a class="btn primary" href="mailto:Dakshmehta077@gmail.com">Start the conversation</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <section id="numbers" aria-labelledby="h-num">
     <div class="wrap">
       <h2 id="h-num" data-split>What the work added up to</h2>
@@ -280,46 +390,6 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--space
         <div class="num rise"><div class="v"><span data-count="18">18</span></div><p>AI for Good NGO partners in Dataiku’s 2026 report</p></div>
         <div class="num rise" style="--d:100ms"><div class="v"><span data-count="4">4</span></div><p>platform vendors compared with one requirements matrix</p></div>
         <div class="num rise" style="--d:200ms"><div class="v"><span data-count="3">3</span><small>+ yrs</small></div><p>of corporate experience, from start-up to CAC 40</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="work" aria-labelledby="h-work">
-    <div class="stick">
-      <div class="wrap"><h2 id="h-work" data-split>Four teams, same habit</h2></div>
-      <div class="track" id="track">
-        <article class="job">
-          <div class="meta"><span>2026 to now</span><span>Paris, FR</span></div>
-          <div class="no" aria-hidden="true">01</div>
-          <h3>Honeybees Consulting</h3>
-          <div class="role">Founder and ESG consultant</div>
-          <p>Automating CSR operations with AI, from data collection to CSRD reporting.</p>
-        </article>
-        <article class="job">
-          <div class="meta"><span>2025 to 2026</span><span>Paris, FR</span></div>
-          <div class="no" aria-hidden="true">02</div>
-          <h3>Dataiku</h3>
-          <div class="role">Sustainability and social impact apprentice</div>
-          <p>Tested the internal GenAI ESG support agent on real client questionnaires.</p>
-        </article>
-        <article class="job">
-          <div class="meta"><span>2025</span><span>Gémenos, FR</span></div>
-          <div class="no" aria-hidden="true">03</div>
-          <h3>Thales</h3>
-          <div class="role">CSR consultant intern</div>
-          <p>Mapped and automated the CSR process in Purchasing. Trained 50+ people on Power Automate.</p>
-        </article>
-        <article class="job">
-          <div class="meta"><span>2022</span><span>Bordeaux, FR</span></div>
-          <div class="no" aria-hidden="true">04</div>
-          <h3>Back Market</h3>
-          <div class="role">Process manager intern</div>
-          <p>Drew the process charts in Figma. Data support for 600 agents on 8 sites.</p>
-        </article>
-        <article class="job next">
-          <h3>Your team next?</h3>
-          <a class="btn primary" href="mailto:Dakshmehta077@gmail.com">Start the conversation</a>
-        </article>
       </div>
     </div>
   </section>
@@ -385,7 +455,7 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--space
 import * as THREE from 'three';
 
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
-const small=matchMedia('(max-width: 820px)').matches, touch=matchMedia('(hover: none)').matches, isMobile=small||touch;
+const mqSmall=matchMedia('(max-width: 820px)'),touch=matchMedia('(hover: none)').matches;let small=mqSmall.matches;const isMobile=small||touch;
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,v)),lerp=(a,b,t)=>a+(b-a)*t;
 const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
@@ -469,10 +539,18 @@ const plan=[
   ['contact',null,'torus',4.4,1,0,1,'#1435b8'],
 ];
 let anchors=[],metas={};
-function measure(){const vh=innerHeight;
+function measure(){const vh=innerHeight;small=mqSmall.matches;layoutWork();
   anchors=plan.map(([id,f,sh,x,s,rx,j,g,o=1])=>{const el=document.getElementById(id),top=el.getBoundingClientRect().top+scrollY,h=el.offsetHeight;
     return{y:Math.max(0,f==null?top+h/2-vh/2:top+(h-vh)*f),shape:SH[sh],x:small?0:x,s:small?s*.6:s,rx,j,o,g:new THREE.Color(g)}}).sort((a,b)=>a.y-b.y);anchors[0].y=0;
-  $$('main>section').forEach(el=>metas[el.id]={top:el.getBoundingClientRect().top+scrollY,h:el.offsetHeight})}
+  $$('main>section').forEach(el=>metas[el.id]={top:el.getBoundingClientRect().top+scrollY,h:el.offsetHeight});
+  docH=document.documentElement.scrollHeight;mqW=$('#mqA').scrollWidth/3||1;
+  if(mac){macTop=mac.parentNode.getBoundingClientRect().top+scrollY;macQ=-1}lastI=-1}
+/* experience: desktop scroll length matches the track, phones get a vertical timeline */
+let workMax=0,jobC=[],jobT=[],trackTop=0,trackH=1,curJob=-1,docH=1,mqW=1,macTop=0,macQ=-1,lastI=-1,lastK=-1;
+function layoutWork(){const w=$('#work');
+  if(small){w.style.height='';workMax=0}else{workMax=Math.max(0,track.scrollWidth-innerWidth);w.style.height=Math.round(innerHeight+workMax*1.3)+'px'}
+  jobC=jobs.map(j=>j.offsetLeft+j.offsetWidth/2);jobT=jobs.map(j=>j.offsetTop+51);
+  trackH=track.offsetHeight;trackTop=track.getBoundingClientRect().top+scrollY}
 
 /* smooth scroll */
 let lenis=null;if(window.Lenis&&!reduce)lenis=new Lenis({lerp:.085,wheelMultiplier:.9});
@@ -481,7 +559,8 @@ $$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=$(a.getAttr
 
 /* pointer */
 const m={nx:0,ny:0};addEventListener('pointermove',e=>{m.nx=e.clientX/innerWidth*2-1;m.ny=-(e.clientY/innerHeight*2-1)},{passive:true});
-$('#mail').addEventListener('click',()=>{try{navigator.clipboard.writeText('Dakshmehta077@gmail.com')}catch(e){}});
+const toastEl=$('#toast');let toastT=0;const toast=t=>{toastEl.textContent=t;toastEl.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>toastEl.classList.remove('on'),2800)};
+$('#mail').addEventListener('click',()=>{try{navigator.clipboard.writeText('Dakshmehta077@gmail.com').then(()=>toast('Email address copied'),()=>{})}catch(e){}});
 
 /* marquee */
 const tA=['Power Automate','Power Platform','GenAI tools','Dataiku DSS','Power BI','Excel and SQL'],tB=['Process mapping','Low-code','KPI reporting','Figma','Jira','Notion','Miro'];
@@ -495,7 +574,9 @@ mqBtn.addEventListener('click',()=>setMq(!mqPaused));
 const mac=$('#mac'),studio=$('#studio');
 if(studio){const fit=()=>{studio.style.transform=`scale(${studio.parentNode.clientWidth/1512})`};fit();new ResizeObserver(fit).observe(studio.parentNode);
   addEventListener('message',e=>{if(e.source!==studio.contentWindow||!e.data||typeof e.data.studioWheel!=='number')return;const d=e.data.studioWheel;lenis?lenis.scrollTo(lenis.targetScroll+d):scrollBy(0,d)})}
-const flipNew=$$('#flip .new'),flipOld=$$('#flip .old'),steps=$$('.step'),ticks=$$('.ticks b'),track=$('#track'),rail=$('#rail'),flowLis=$$('#flow li'),spine=$('#spine');let curStep=-1;
+const flipNew=$$('#flip .new'),flipOld=$$('#flip .old'),steps=$$('.step'),ticks=$$('.ticks b'),track=$('#track'),jobs=$$('#track .job'),jobCur=$('#jobCur'),jobBar=$('#jobBar'),tlFill=$('#tlFill'),nav=$('nav'),rail=$('#rail'),flowLis=$$('#flow li'),spine=$('#spine');let curStep=-1,navSc=null,navHex='';
+jobs.forEach(j=>{j.addEventListener('pointermove',e=>{const r=j.getBoundingClientRect();j.style.setProperty('--mx',(e.clientX-r.left)+'px');j.style.setProperty('--my',(e.clientY-r.top)+'px')},{passive:true})});
+const jobIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('seen');jobIO.unobserve(e.target)}}),{threshold:.2});jobs.forEach(j=>jobIO.observe(j));
 const prog=id=>{const s=metas[id];return s?clamp((getY()-s.top)/Math.max(1,s.h-innerHeight),0,1):0};
 const seen=id=>{const s=metas[id];return s?clamp((getY()+innerHeight*.85-s.top)/(s.h*.8),0,1):0};
 
@@ -507,8 +588,9 @@ function frame(time){
   const t=reduce?0:clock.getElapsedTime(),y=getY();
   let i=0;while(i<anchors.length-1&&y>=anchors[i+1].y)i++;
   const A=anchors[i],B=anchors[Math.min(i+1,anchors.length-1)],raw=B===A?0:clamp((y-A.y)/(B.y-A.y),0,1),k=sstep(.12,.88,raw),a=A.shape,b=B.shape;
-  for(let p=0,q=0;p<N;p++,q+=3){const tt=ease(clamp(k*1.5-delay[p]*.5,0,1));pos[q]=a[q]+(b[q]-a[q])*tt;pos[q+1]=a[q+1]+(b[q+1]-a[q+1])*tt;pos[q+2]=a[q+2]+(b[q+2]-a[q+2])*tt}
-  geo.attributes.position.needsUpdate=true;
+  if(i!==lastI||k!==lastK){lastI=i;lastK=k;
+    for(let p=0,q=0;p<N;p++,q+=3){const tt=ease(clamp(k*1.5-delay[p]*.5,0,1));pos[q]=a[q]+(b[q]-a[q])*tt;pos[q+1]=a[q+1]+(b[q+1]-a[q+1])*tt;pos[q+2]=a[q+2]+(b[q+2]-a[q+2])*tt}
+    geo.attributes.position.needsUpdate=true}
   st.x=lerp(st.x,lerp(A.x,B.x,k),.08);st.s=lerp(st.s,lerp(A.s,B.s,k),.08);st.rx=lerp(st.rx,lerp(A.rx,B.rx,k),.06);st.j=lerp(st.j,reduce?1:lerp(A.j,B.j,k),.06);
   bg.copy(A.g).lerp(B.g,k);renderer.setClearColor(bg,1);
   grp.position.x=st.x;grp.scale.setScalar(st.s);
@@ -524,12 +606,17 @@ function frame(time){
   const pp=prog('method'),si=clamp(Math.floor(pp*4),0,3);
   if(si!==curStep){steps.forEach((s,j)=>{s.classList.toggle('on',j===si);s.classList.toggle('past',j<si);s.setAttribute('aria-hidden',j!==si)});curStep=si}
   ticks.forEach((b,j)=>b.style.transform=`scaleX(${clamp(pp*4-j,0,1)})`);
-  const wp=prog('work'),max=Math.max(0,track.scrollWidth-innerWidth);track.style.transform=`translate3d(${-ease(wp)*max}px,0,0)`;
-  if(mac&&!reduce){const r=mac.getBoundingClientRect(),q=sstep(0,1,(innerHeight-r.top)/(innerHeight*.75));mac.style.transform=`rotateX(${(1-q)*24}deg) scale(${.9+.1*q}) translateY(${(1-q)*40}px)`}
+  if(!small){const wp=prog('work'),x=wp*workMax,n=jobC.length,f=jobC[0]+wp*(jobC[n-1]-jobC[0]),gap=(jobC[1]-jobC[0])||1;let best=0,bd=1e9;
+    track.style.transform=`translate3d(${(-x).toFixed(1)}px,0,0)`;
+    jobs.forEach((j,k)=>{const d=Math.abs(jobC[k]-f);if(d<bd){bd=d;best=k}const av=(1-sstep(0,1,d/gap)).toFixed(3);if(j._a!==av){j._a=av;j.style.setProperty('--a',av)}});
+    best=Math.min(best,3);if(best!==curJob){curJob=best;jobCur.textContent=String(best+1).padStart(2,'0')}jobBar.style.transform=`scaleX(${wp.toFixed(4)})`}
+  else{const fy=clamp((y+innerHeight*.6-trackTop-30)/Math.max(1,trackH-60),0,1),yy=30+fy*(trackH-60);tlFill.style.transform=`scaleY(${fy.toFixed(4)})`;jobs.forEach((j,k)=>j.classList.toggle('lit',yy>=jobT[k]))}
+  if(mac&&!reduce){const q=sstep(0,1,(innerHeight-(macTop-y))/(innerHeight*.75));if(Math.abs(q-macQ)>.0005){macQ=q;mac.style.transform=`rotateX(${(1-q)*24}deg) scale(${.9+.1*q}) translateY(${(1-q)*40}px)`}}
+  const sc=y>innerHeight*.6;if(sc!==navSc){navSc=sc;nav.classList.toggle('scrolled',sc)}const hx='#'+bg.getHexString();if(hx!==navHex){navHex=hx;nav.style.setProperty('--nav-g',hx)}
   const fl=sstep(.3,.8,seen('pipe'));rail.style.transform=`scaleX(${fl})`;flowLis.forEach((n,j)=>n.classList.toggle('lit',fl>=j/5-.001&&fl>0));
-  if(!mqPaused&&!mqHover){mqV=lerp(mqV,vel*.5,.1);mqX-=1.1+mqV}const wA=$('#mqA').scrollWidth/3||1;mqX=((mqX%wA)-wA)%wA;
+  if(!mqPaused&&!mqHover){mqV=lerp(mqV,vel*.5,.1);mqX-=1.1+mqV}const wA=mqW;mqX=((mqX%wA)-wA)%wA;
   $('#mqA').style.transform=`translate3d(${mqX}px,0,0)`;$('#mqB').style.transform=`translate3d(${-wA-mqX}px,0,0)`;
-  const total=document.documentElement.scrollHeight-innerHeight;spine.style.transform=`scaleY(${clamp(y/total,0,1)})`;
+  const total=Math.max(1,docH-innerHeight);spine.style.transform=`scaleY(${clamp(y/total,0,1)})`;
 }
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);measure()});
 
